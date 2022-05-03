@@ -6,11 +6,17 @@ const app = express();
 app.use(express.static("../client/dist"));
 
 const wsServer = new WebSocketServer({ noServer: true });
+
+const sockets = [];
+
 wsServer.on("connect", (socket) => {
+  sockets.push(socket);
   socket.send(JSON.stringify({ author: "Server", message: "Pls send" }));
   socket.on("message", (data) => {
     const { author, message } = JSON.parse(data);
-    socket.send(JSON.stringify({ author, message }));
+    for (const recipient of sockets) {
+      recipient.send(JSON.stringify({ author, message }));
+    }
   });
 });
 
