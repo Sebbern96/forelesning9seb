@@ -64,8 +64,9 @@ function ChatApplication({ username }) {
 
   function handleNewMessage(event) {
     event.preventDefault();
-    setChatLog([...chatLog, { author: username, message }]);
-    setMessage("");
+    const chatMessage = { author: username, message };
+    ws.send(JSON.stringify(chatMessage));
+    setMessage(" ");
   }
 
   return (
