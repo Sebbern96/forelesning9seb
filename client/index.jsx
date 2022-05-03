@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactDom from "react-dom";
 
 function Login({ onLogin }) {
-  const [username, setUsername] = useState("test");
+  const [username, setUsername] = useState();
   function handleSubmit(event) {
     event.preventDefault();
     onLogin(username);
@@ -39,27 +39,13 @@ function ChatApplication({ username }) {
   useEffect(() => {
     const ws = new WebSocket("ws://localhost:3000/");
     ws.onmessage = (event) => {
-      console.log(event.data);
       const { author, message } = JSON.parse(event.data);
-      setChatLog([...chatLog, { author, message }]);
+      setChatLog((oldState) => [...oldState, { author, message }]);
     };
     setWs(ws);
   }, []);
 
-  const [chatLog, setChatLog] = useState([
-    {
-      author: "Sebastian",
-      message: "Skjer gutta,",
-    },
-    {
-      author: "Vegard",
-      message: "Du er den perfekte mann Sebastian",
-    },
-    {
-      author: "Ramstad",
-      message: "Poker eller gutta?",
-    },
-  ]);
+  const [chatLog, setChatLog] = useState([]);
   const [message, setMessage] = useState("");
 
   function handleNewMessage(event) {
