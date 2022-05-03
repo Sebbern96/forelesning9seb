@@ -25,6 +25,25 @@ function Login({ onLogin }) {
   );
 }
 
+function ChatApplication({ username }) {
+  function handleNewMessage(event) {
+    event.preventDefault();
+  }
+
+  return (
+    <div className={"application"}>
+      <header>Chat Application {username}</header>
+      <main>Here is the main content</main>
+      <footer>
+        <form onSubmit={handleNewMessage}>
+          <input />
+          <button>Submit</button>
+        </form>
+      </footer>
+    </div>
+  );
+}
+
 function Application() {
   const [username, setUsername] = useState();
 
@@ -32,7 +51,7 @@ function Application() {
     return <Login onLogin={(username) => setUsername(username)} />;
   }
 
-  return <div>Hello {username}</div>;
+  return <ChatApplication username={username} />;
 }
 
 ReactDom.render(<Application />, document.getElementById("app"));
